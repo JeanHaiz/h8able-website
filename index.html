@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>h8able.dev - Build Apps That Actually Work™</title>
+    <title>h8able.dev - Build Prod-Ready Apps™</title>
     <style>
         * {
             margin: 0;
@@ -13,9 +13,10 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
         .hero {
@@ -29,43 +30,96 @@
             padding: 2rem;
         }
 
+        @media (max-width: 768px) {
+            .hero {
+                padding: 1rem;
+                min-height: 80vh;
+            }
+        }
+
         .logo {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.02em;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
         }
 
         .tagline {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            opacity: 0.95;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @media (max-width: 768px) {
+            .tagline {
+                font-size: 1.25rem;
+            }
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             margin-bottom: 3rem;
             max-width: 800px;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-weight: 400;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        @media (max-width: 768px) {
+            .subtitle {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
         }
 
         .cta-button {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            background: linear-gradient(45deg, #f59e0b, #d97706);
             color: white;
             padding: 1rem 2rem;
             border: none;
-            border-radius: 50px;
+            border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
         }
 
         .features {
@@ -75,9 +129,18 @@
         }
 
         .features h2 {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             margin-bottom: 3rem;
-            color: #333;
+            color: #1e293b;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        @media (max-width: 768px) {
+            .features h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
         }
 
         .feature-grid {
@@ -88,16 +151,26 @@
             margin: 0 auto;
         }
 
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
         .feature-card {
-            background: #f8f9fa;
+            background: #ffffff;
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border-color: #e2e8f0;
         }
 
         .feature-icon {
@@ -106,36 +179,48 @@
         }
 
         .feature-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 1rem;
-            color: #333;
+            color: #1e293b;
+            letter-spacing: -0.01em;
         }
 
         .feature-text {
-            color: #666;
-            line-height: 1.6;
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 1rem;
         }
 
         .comparison {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             padding: 4rem 2rem;
             color: white;
         }
 
         .comparison h2 {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             margin-bottom: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        @media (max-width: 768px) {
+            .comparison h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
         }
 
         .vs-table {
             max-width: 800px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 16px;
             padding: 2rem;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .vs-row {
@@ -145,6 +230,18 @@
             padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .vs-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .vs-separator {
+                order: 2;
+            }
         }
 
         .vs-row:last-child {
@@ -162,40 +259,61 @@
         }
 
         .footer {
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
             color: white;
             padding: 3rem 2rem;
             text-align: center;
         }
 
         .memes {
-            background: #f8f9fa;
+            background: #f8fafc;
             padding: 4rem 2rem;
             text-align: center;
         }
 
         .meme-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+
+        @media (min-width: 1200px) {
+            .meme-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .meme-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
         }
 
         .meme-card {
             background: white;
             padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
+
+        .meme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
 
         .countdown {
-            background: #ff4757;
+            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
             color: white;
             padding: 1rem;
             text-align: center;
-            font-weight: bold;
-            font-size: 1.2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .blink {
@@ -213,6 +331,59 @@
             100% {
                 opacity: 0;
             }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .animate-delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        .animate-delay-4 {
+            animation-delay: 0.4s;
+        }
+
+        .animate-delay-5 {
+            animation-delay: 0.5s;
+        }
+
+        .animate-delay-6 {
+            animation-delay: 0.6s;
         }
 
         .strike {
@@ -234,15 +405,20 @@
 
 <body>
     <div class="countdown">
-        🚨 <span class="blink">BREAKING:</span> Local startup still trying to figure out why their "secure" app got
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+            style="margin-right: 8px; vertical-align: middle;">
+            <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+        </svg>
+        <span class="blink">BREAKING:</span> Local startup still trying to figure out why their "secure" app got
         hacked again
     </div>
 
     <section class="hero">
         <h1 class="logo">h8able.dev</h1>
-        <p class="tagline">Build Apps That Actually Work™</p>
+        <p class="tagline">Build Prod-Ready Apps™</p>
         <p class="subtitle">
-            Remember when "move fast and break things" meant your app, not your users' data?
+            Remember when "move fast and break things" meant your app, not your security?
             We're bringing back the radical concept of <strong>security</strong> and <strong>scalability</strong>
             to app development. Revolutionary, we know.
         </p>
@@ -252,36 +428,54 @@
     <section class="features" id="features">
         <h2>Finally, Apps That Don't Embarrass You</h2>
         <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
+            <div class="feature-card animate-on-scroll animate-delay-1">
+                <div class="feature-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #667eea;">
+                        <path
+                            d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
+                    </svg>
+                </div>
                 <h3 class="feature-title">Actually Secure</h3>
                 <p class="feature-text">
-                    Wild concept: What if your app didn't leak user data?
-                    Our upcoming platform uses a secure-by-design language that makes SQL injection as outdated as flip
-                    phones.
+                    What if your app didn't leak user data?
+                    Our platform uses a secure-by-design language that makes SQL injection as outdated as flip phones.
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">📈</div>
+            <div class="feature-card animate-on-scroll animate-delay-2">
+                <div class="feature-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #667eea;">
+                        <path
+                            d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z" />
+                    </svg>
+                </div>
                 <h3 class="feature-title">Scales Beyond 10 Users</h3>
                 <p class="feature-text">
-                    Shocking news: Some apps need to handle more than your immediate family.
+                    Some apps need to handle more than your immediate family.
                     Our architecture won't crash when your grandmother shares your app on Facebook.
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">🧠</div>
+            <div class="feature-card animate-on-scroll animate-delay-3">
+                <div class="feature-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #667eea;">
+                        <path
+                            d="M9,2A7,7 0 0,0 2,9A7,7 0 0,0 9,16A7,7 0 0,0 16,9A7,7 0 0,0 9,2M9,4A5,5 0 0,1 14,9A5,5 0 0,1 9,14A5,5 0 0,1 4,9A5,5 0 0,1 9,4M9,6A3,3 0 0,0 6,9A3,3 0 0,0 9,12A3,3 0 0,0 12,9A3,3 0 0,0 9,6M19,12A1,1 0 0,0 18,13V19A1,1 0 0,0 19,20H21A1,1 0 0,0 22,19V13A1,1 0 0,0 21,12H19Z" />
+                    </svg>
+                </div>
                 <h3 class="feature-title">Code You Can Understand</h3>
                 <p class="feature-text">
                     Remember maintainable code? We're bringing it back.
-                    No more staring at AI-generated spaghetti wondering "what does this even do?"
+                    No more staring at spaghetti code wondering "what does this even do?"
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
+            <div class="feature-card animate-on-scroll animate-delay-4">
+                <div class="feature-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #667eea;">
+                        <path d="M7,2V13H10V22L17,10H13L17,2H7Z" />
+                    </svg>
+                </div>
                 <h3 class="feature-title">Performance That Doesn't Suck</h3>
                 <p class="feature-text">
                     Your users shouldn't need to make coffee while your app loads.
@@ -289,17 +483,27 @@
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
+            <div class="feature-card animate-on-scroll animate-delay-5">
+                <div class="feature-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #667eea;">
+                        <path
+                            d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.1 16,12.7V16.2C16,16.8 15.4,17.3 14.8,17.3H9.2C8.6,17.3 8,16.8 8,16.2V12.7C8,12.1 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z" />
+                    </svg>
+                </div>
                 <h3 class="feature-title">No Surprise Vulnerabilities</h3>
                 <p class="feature-text">
-                    Novel idea: What if your app came with built-in security instead of built-in CVEs?
+                    What if your app came with built-in security instead of built-in CVEs?
                     Our language prevents entire categories of bugs that keep security teams up at night.
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
+            <div class="feature-card animate-on-scroll animate-delay-6">
+                <div class="feature-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #667eea;">
+                        <path
+                            d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10Z" />
+                    </svg>
+                </div>
                 <h3 class="feature-title">Works in Production</h3>
                 <p class="feature-text">
                     "It works on my demo" isn't good enough anymore.
@@ -319,70 +523,125 @@
             </div>
             <div class="vs-row">
                 <div class="vs-item">"Build in minutes!"*<br><small>*Debug for months</small></div>
-                <div class="vs-separator">⚔️</div>
+                <div class="vs-separator">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M6.92,5H5L6.5,6.5L5,8H6.92L8.84,10.92L7.5,12.5L8.84,13.84L10.92,11.76L12.5,13.5L13.84,12.16L12.16,10.5L14.08,8.58H16L14.5,6.5L16,5H14.08L12.16,3.08L13.84,1.84L12.5,0.5L10.92,2.42L8.84,0.34L7.5,1.68L8.84,3.02L6.92,5M12,15.5A3.5,3.5 0 0,1 8.5,19A3.5,3.5 0 0,1 5,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,15.5M8.5,13A2.5,2.5 0 0,0 6,15.5A2.5,2.5 0 0,0 8.5,18A2.5,2.5 0 0,0 11,15.5A2.5,2.5 0 0,0 8.5,13Z" />
+                    </svg>
+                </div>
                 <div class="vs-item">Build right the first time</div>
             </div>
             <div class="vs-row">
                 <div class="vs-item">Security is "someone else's problem"</div>
-                <div class="vs-separator">🛡️</div>
+                <div class="vs-separator">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1Z" />
+                    </svg>
+                </div>
                 <div class="vs-item">Security is baked in</div>
             </div>
             <div class="vs-row">
                 <div class="vs-item">Scales to dozens of users*<br><small>*If you're lucky</small></div>
-                <div class="vs-separator">📈</div>
+                <div class="vs-separator">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z" />
+                    </svg>
+                </div>
                 <div class="vs-item">Actually scales</div>
             </div>
             <div class="vs-row">
                 <div class="vs-item">Code you can't read or modify</div>
-                <div class="vs-separator">💻</div>
+                <div class="vs-separator">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4A2,2 0 0,0 2,6V16A2,2 0 0,0 4,18H11V20H6V22H18V20H13V18H20Z" />
+                    </svg>
+                </div>
                 <div class="vs-item">Code you own and understand</div>
             </div>
             <div class="vs-row">
                 <div class="vs-item">"Just trust the AI"</div>
-                <div class="vs-separator">🤖</div>
+                <div class="vs-separator">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12,2A2,2 0 0,1 14,4C14,4.74 13.6,5.39 13,5.73V7H14A7,7 0 0,1 21,14H22A1,1 0 0,1 23,15V18A1,1 0 0,1 22,19H21V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V19H2A1,1 0 0,1 1,18V15A1,1 0 0,1 2,14H3A7,7 0 0,1 10,7H11V5.73C10.4,5.39 10,4.74 10,4A2,2 0 0,1 12,2M7.5,13A2.5,2.5 0 0,0 5,15.5A2.5,2.5 0 0,0 7.5,18A2.5,2.5 0 0,0 10,15.5A2.5,2.5 0 0,0 7.5,13M16.5,13A2.5,2.5 0 0,0 14,15.5A2.5,2.5 0 0,0 16.5,18A2.5,2.5 0 0,0 19,15.5A2.5,2.5 0 0,0 16.5,13Z" />
+                    </svg>
+                </div>
                 <div class="vs-item">AI + Human expertise</div>
             </div>
         </div>
     </section>
 
     <section class="memes">
-        <h2>Meanwhile, In the No-Code Universe...</h2>
+        <h2 style="font-size: 2.75rem; margin-bottom: 3rem; color: #1e293b; font-weight: 700; letter-spacing: -0.02em;">
+            Meanwhile, In the No-Code Universe...</h2>
         <div class="meme-grid">
             <div class="meme-card">
-                <h3>💸 "Free Weekend Special!"</h3>
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                        style="vertical-align: middle; margin-right: 8px; color: #e74c3c;">
+                        <path
+                            d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z" />
+                    </svg>
+                    "Free Weekend Special!"
+                </h3>
                 <p>"Build your startup this weekend! What could go wrong?"</p>
                 <small>- Every no-code platform, ever</small>
             </div>
 
             <div class="meme-card">
-                <h3>🚀 "From Idea to IPO!"</h3>
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                        style="vertical-align: middle; margin-right: 8px; color: #e74c3c;">
+                        <path
+                            d="M2.81,14.12L5.64,11.29L8.17,10.79C11.39,6.41 17.55,4.22 19.78,4.22C19.78,6.45 17.59,12.61 13.21,15.83L12.71,18.36L9.88,21.19L9.17,17.66C7.76,17.66 7.76,17.66 7.05,16.95C6.34,16.24 6.34,16.24 6.34,14.83L2.81,14.12M5.64,16.95L7.05,18.36L4.39,21.03H2.97L5.64,16.95Z" />
+                    </svg>
+                    "From Idea to IPO!"
+                </h3>
                 <p>"Just describe your app and we'll handle the rest!"</p>
                 <small>*Terms and conditions include learning to code anyway</small>
             </div>
 
             <div class="meme-card">
-                <h3>🔥 "Viral in Minutes!"</h3>
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                        style="vertical-align: middle; margin-right: 8px; color: #e74c3c;">
+                        <path
+                            d="M17.66,11.2C17.43,10.9 17.15,10.64 16.89,10.38C16.22,9.78 15.46,9.35 14.82,8.72C13.33,7.26 13,4.85 13.95,3C13.14,3.23 12.44,3.6 11.79,4.04C8.75,6.83 9.87,11.3 6.24,14.36C4.78,15.58 3.5,17.42 5.6,19.34C6.94,20.48 8.21,20.81 9.58,21.07C10.27,21.21 11,21.4 11.66,21.55C15.03,22.28 18.05,22.07 20.1,20.18C22.32,18.15 22.54,14.6 17.66,11.2Z" />
+                    </svg>
+                    "Viral in Minutes!"
+                </h3>
                 <p>"Your app will be trending faster than you can say 'security vulnerability'!"</p>
                 <small>Trending for all the wrong reasons</small>
             </div>
 
             <div class="meme-card">
-                <h3>🎭 "No Technical Knowledge Required!"</h3>
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                        style="vertical-align: middle; margin-right: 8px; color: #e74c3c;">
+                        <path
+                            d="M8.5,16.5L11,13H8L6.5,9.5L5,13H2L4.5,16.5H8.5M23,16.5L18.5,9H14L19,16.5H23M15,2A2,2 0 0,1 17,4A2,2 0 0,1 15,6A2,2 0 0,1 13,4A2,2 0 0,1 15,2M9,2A2,2 0 0,1 11,4A2,2 0 0,1 9,6A2,2 0 0,1 7,4A2,2 0 0,1 9,2Z" />
+                    </svg>
+                    "No Technical Knowledge Required!"
+                </h3>
                 <p>"Anyone can do it! Even your cat!"</p>
                 <small>Your cat probably writes better code</small>
             </div>
         </div>
     </section>
 
-    <section class="hero" style="min-height: 50vh; background: linear-gradient(45deg, #2c3e50, #3498db);">
-        <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Coming Soon: The Future of Secure Development</h2>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem; max-width: 700px;">
-            We're building the no-code platform you'd actually trust with your production systems.
+    <section class="hero" style="min-height: 50vh; background: linear-gradient(45deg, #1e293b, #3b82f6);">
+        <h2 style="font-size: 2.75rem; margin-bottom: 2rem; font-weight: 700; letter-spacing: -0.02em;">Coming Soon: The
+            Future of Secure Development</h2>
+        <p style="font-size: 1.25rem; margin-bottom: 2rem; max-width: 700px; line-height: 1.7; opacity: 0.9;">
+            We're building the platform you'd actually trust with your production systems.
             Built on a secure programming language that doesn't treat security as an afterthought.
         </p>
         <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
             <button class="cta-button" onclick="openWaitlistPopup()">Join the Waitlist</button>
-            <a href="#" class="cta-button" style="background: transparent; border: 2px solid white;">Learn About Our
+            <a href="#" class="cta-button"
+                style="background: transparent; border: 2px solid white; box-shadow: none;">Learn About Our
                 Language</a>
         </div>
 
@@ -401,7 +660,7 @@
                 <div class="launchlist-widget" data-key-id="HaYIz8" data-height="120px"></div>
             </div>
         </div>
-        <p style="margin-top: 2rem; opacity: 0.8; font-size: 0.9rem;">
+        <p style="margin-top: 2rem; opacity: 0.8; font-size: 0.95rem; line-height: 1.6;">
             Because "it compiled, ship it" isn't a deployment strategy.
         </p>
     </section>
@@ -409,12 +668,17 @@
     <footer class="footer">
         <p>&copy; 2025 h8able.dev - Making Security Cool Again</p>
         <p style="margin-top: 1rem; opacity: 0.7; font-size: 0.9rem;">
-            Built with actual care, not just AI prompts.<br>
+            Built with actual care, not just prompts.<br>
             No user data was harmed in the making of this website.
         </p>
         <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.5;">
             This is a parody. Any resemblance to real no-code platforms that may or may not take security seriously is
-            purely coincidental. 😉
+            purely coincidental.
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+                style="vertical-align: middle; margin-left: 4px; opacity: 0.7;">
+                <path
+                    d="M12,2C6.486,2 2,6.486 2,12C2,17.515 6.486,22 12,22C17.514,22 22,17.515 22,12C22,6.486 17.514,2 12,2ZM8.5,9C9.329,9 10,9.672 10,10.5C10,11.328 9.329,12 8.5,12C7.671,12 7,11.328 7,10.5C7,9.672 7.671,9 8.5,9ZM15.493,17.25L12,14.5L8.507,17.25L7.25,15.493L10.5,12L7.25,8.507L8.507,6.75L12,9.5L15.493,6.75L16.75,8.507L13.5,12L16.75,15.493L15.493,17.25Z" />
+            </svg>
         </p>
     </footer>
 
@@ -433,9 +697,28 @@
             });
         });
 
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = entry.target.style.animation ||
+                        `fadeInUp 0.6s ease-out forwards`;
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
         // Fun easter egg - click the logo
         document.querySelector('.logo').addEventListener('click', function () {
-            alert('🎉 Pro tip: Security vulnerabilities are not easter eggs!');
+            alert('🎯 Pro tip: Security vulnerabilities are not easter eggs!');
         });
 
         // Waitlist popup functions
