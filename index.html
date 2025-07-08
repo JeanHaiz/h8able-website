@@ -221,6 +221,15 @@
         }
     </style>
     <script src="https://getlaunchlist.com/js/widget.js" defer></script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8627FE72CY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-8627FE72CY');
+    </script>
 </head>
 
 <body>
@@ -431,6 +440,12 @@
 
         // Waitlist popup functions
         function openWaitlistPopup() {
+            // Track the button click with Google Analytics
+            gtag('event', 'waitlist_popup_opened', {
+                'event_category': 'engagement',
+                'event_label': 'join_waitlist_button'
+            });
+
             document.getElementById('waitlistPopup').style.display = 'flex';
         }
 
