@@ -458,8 +458,8 @@
                     </div>
                 </div>
                 <button type="submit" id="promptSubmit"
-                    style="background: linear-gradient(45deg, #f59e0b, #d97706); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.3); disabled:opacity: 0.6; disabled:cursor: not-allowed;"
-                    disabled>
+                    style="background: linear-gradient(45deg, #f59e0b, #d97706); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.3);"
+                    disabled style="opacity: 0.6; cursor: not-allowed;">
                     Generate Secure Code
                 </button>
             </form>
@@ -688,7 +688,7 @@
 
         <!-- LaunchList Popup -->
         <div id="waitlistPopup"
-            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
             <div
                 style="background: white; padding: 2rem; border-radius: 15px; max-width: 800px; width: 95%; position: relative;">
                 <button onclick="closeWaitlistPopup()"
@@ -698,7 +698,7 @@
                 <p style="text-align: center; margin-bottom: 2rem; color: #666; line-height: 1.5; font-size: 1.1rem;">
                     Whether you're here to see secure development in action or just enjoy some good-natured ribbing of
                     the "move fast and break everything" crowd, you've come to the right place.</p>
-                <div class="launchlist-widget" data-key-id="HaYIz8" data-height="120px"></div>
+                <div class="launchlist-widget" data-key-id="HaYIz8" data-height="120px" style="margin: 0 auto; text-align: center;"></div>
             </div>
         </div>
         <p style="margin-top: 2rem; opacity: 0.8; font-size: 0.95rem; line-height: 1.6;">
@@ -832,25 +832,50 @@
                         <button onclick="this.closest('div').parentElement.remove()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
                         <h3 style="margin-bottom: 1.5rem; color: #1e293b; font-size: 1.4rem;">Get Your Security Analysis</h3>
                         <p style="margin-bottom: 1.5rem; color: #64748b; line-height: 1.6;">
-                            To provide you with personalized security insights, please sign up for early access to our platform.
+                            To provide you with personalized security insights, please register for early access to our platform.
                         </p>
                         <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #6366f1;">
                             <strong>Your Question:</strong><br>
                             <em>"${prompt.length > 100 ? prompt.substring(0, 100) + '...' : prompt}"</em>
                         </div>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-                            <button onclick="openWaitlistFromPrompt('${prompt.replace(/'/g, "\\'")}')" style="background: linear-gradient(45deg, #f59e0b, #d97706); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
-                                Sign Up for Analysis
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <button onclick="openWaitlistFromModal()" style="background: linear-gradient(45deg, #f59e0b, #d97706); color: white; padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.3); width: 100%; max-width: 300px;">
+                                Register for Analysis
                             </button>
-                            <button onclick="this.closest('div').parentElement.remove()" style="background: transparent; border: 2px solid #d1d5db; color: #64748b; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
-                                Maybe Later
-                            </button>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">
+                                Get personalized security insights
+                            </p>
                         </div>
                     </div>
                 </div>
             `;
 
             document.body.appendChild(modal);
+
+            // Try multiple approaches to initialize LaunchList widget
+            setTimeout(() => {
+                // Method 1: Try LaunchList.init
+                if (window.LaunchList && window.LaunchList.init) {
+                    window.LaunchList.init();
+                }
+
+                // Method 2: Try to trigger widget detection
+                if (window.LaunchList && window.LaunchList.detectWidgets) {
+                    window.LaunchList.detectWidgets();
+                }
+
+                // Method 3: Manually trigger script reload for widgets
+                const widgets = modal.querySelectorAll('.launchlist-widget');
+                widgets.forEach(widget => {
+                    if (window.LaunchList && window.LaunchList.renderWidget) {
+                        window.LaunchList.renderWidget(widget);
+                    }
+                });
+
+                // Method 4: Dispatch custom event to trigger widget initialization
+                window.dispatchEvent(new Event('launchlist-reinit'));
+
+            }, 100);
 
             // Close modal when clicking outside
             modal.addEventListener('click', function (e) {
@@ -860,8 +885,101 @@
             });
         }
 
-        // Open waitlist from prompt
-        function openWaitlistFromPrompt(prompt) {
+        // Open waitlist from modal - make it global
+        window.openWaitlistFromModal = function () {
+            // Track conversion
+            gtag('event', 'waitlist_from_prompt_modal', {
+                'event_category': 'conversion',
+                'event_label': 'security_assistant_modal_signup'
+            });
+
+            // Close signup modal with a small delay
+            const modals = document.querySelectorAll('div[style*="position: fixed"]');
+            modals.forEach(modal => {
+                if (modal.style.position === 'fixed') {
+                    modal.remove();
+                }
+            });
+
+            // Open waitlist popup with a small delay to ensure modal is closed
+            setTimeout(() => {
+                const waitlistPopup = document.getElementById('waitlistPopup');
+
+                if (waitlistPopup) {
+                    // Set display flex and ensure it's visible
+                    waitlistPopup.style.display = 'flex';
+                    waitlistPopup.style.visibility = 'visible';
+                    waitlistPopup.style.opacity = '1';
+                } else {
+                    // Create a new waitlist popup if the original is missing
+                    const newPopup = document.createElement('div');
+                    newPopup.innerHTML = `
+                        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+                            <div style="background: white; padding: 2rem; border-radius: 15px; max-width: 800px; width: 95%; position: relative;">
+                                <button onclick="this.closest('div').parentElement.remove()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
+                                <h3 style="text-align: center; margin-bottom: 1.5rem; color: #333; font-size: 1.4rem;">Ready to build something that actually works?</h3>
+                                <p style="text-align: center; margin-bottom: 2rem; color: #666; line-height: 1.5; font-size: 1.1rem;">
+                                    Whether you're here to see secure development in action or just enjoy some good-natured ribbing of the "move fast and break everything" crowd, you've come to the right place.
+                                </p>
+                                <div class="launchlist-widget" data-key-id="HaYIz8" data-height="120px" style="margin: 0 auto; text-align: center;"></div>
+                                
+                                <!-- Fallback form if LaunchList doesn't load -->
+                                <div id="fallback-form" style="display: none; text-align: center;">
+                                    <form onsubmit="handleFallbackSignup(event)" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto;">
+                                        <input type="email" placeholder="Enter your email" required style="flex: 1; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                                        <button type="submit" style="background: linear-gradient(45deg, #f59e0b, #d97706); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                                            Join Waitlist
+                                        </button>
+                                    </form>
+                                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #64748b;">We'll notify you when we launch!</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(newPopup);
+
+                    // Try multiple approaches to initialize LaunchList widget
+                    setTimeout(() => {
+                        // Method 1: Global init
+                        if (window.LaunchList && window.LaunchList.init) {
+                            window.LaunchList.init();
+                        }
+
+                        // Method 2: Re-run the script
+                        const script = document.createElement('script');
+                        script.src = 'https://getlaunchlist.com/js/widget.js';
+                        script.onload = () => {
+                            setTimeout(() => {
+                                if (window.LaunchList && window.LaunchList.init) {
+                                    window.LaunchList.init();
+                                }
+                            }, 100);
+                        };
+                        document.head.appendChild(script);
+
+                        // Method 3: Trigger custom events
+                        window.dispatchEvent(new Event('DOMContentLoaded'));
+                        window.dispatchEvent(new Event('load'));
+
+                        // Method 4: Show fallback form if LaunchList doesn't work
+                        setTimeout(() => {
+                            const widget = newPopup.querySelector('.launchlist-widget');
+                            const fallbackForm = newPopup.querySelector('#fallback-form');
+
+                            // Check if LaunchList widget has loaded content
+                            if (widget && (!widget.children || widget.children.length === 0)) {
+                                widget.style.display = 'none';
+                                fallbackForm.style.display = 'block';
+                            }
+                        }, 500); // Wait 2 seconds for LaunchList to load
+
+                    }, 300);
+                }
+            }, 100);
+        }
+
+        // Open waitlist from prompt - make it global
+        window.openWaitlistFromPrompt = function (prompt) {
             // Track conversion
             gtag('event', 'waitlist_from_prompt', {
                 'event_category': 'conversion',
@@ -869,11 +987,38 @@
                 'prompt_text': prompt
             });
 
-            // Close signup modal
-            document.querySelector('[style*="position: fixed"]').remove();
+            // Close signup modal - more robust selector
+            const modals = document.querySelectorAll('div[style*="position: fixed"]');
+            modals.forEach(modal => {
+                if (modal.style.position === 'fixed') {
+                    modal.remove();
+                }
+            });
 
             // Open waitlist popup
             openWaitlistPopup();
+        }
+
+        // Fallback form handler
+        window.handleFallbackSignup = function (event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+
+            // Track signup
+            gtag('event', 'fallback_signup', {
+                'event_category': 'conversion',
+                'event_label': 'manual_email_signup',
+                'email': email
+            });
+
+            // Show success message
+            const form = event.target;
+            form.innerHTML = `
+                <div style="text-align: center; padding: 1rem;">
+                    <div style="color: #10b981; font-size: 1.2rem; margin-bottom: 0.5rem;">✓ Success!</div>
+                    <p style="color: #64748b;">Thanks for signing up! We'll be in touch soon.</p>
+                </div>
+            `;
         }
 
         // Fun easter egg - click the logo
@@ -882,7 +1027,8 @@
         });
 
         // Waitlist popup functions
-        function openWaitlistPopup() {
+        // Make openWaitlistPopup global
+        window.openWaitlistPopup = function () {
             // Track the button click with Google Analytics
             gtag('event', 'waitlist_popup_opened', {
                 'event_category': 'engagement',
@@ -892,7 +1038,7 @@
             document.getElementById('waitlistPopup').style.display = 'flex';
         }
 
-        function closeWaitlistPopup() {
+        window.closeWaitlistPopup = function () {
             document.getElementById('waitlistPopup').style.display = 'none';
         }
 
